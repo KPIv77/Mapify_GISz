@@ -1,0 +1,99 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    margin: 0;
+}
+
+.menu {
+    height: 95%;
+    width: 3%;
+    background-color: rgb(255, 255, 255);
+    transition: 0.3s;
+}
+
+.menu.shifted {
+    width: 12%;
+    transition: 0.3s;
+}
+
+.showmenu {
+    margin-top: 5px;
+    margin-left: 5px;
+    padding: 5px 10px;
+    font-size: 30px;
+    background: white;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+.fileInput {
+    border-radius: 10px;
+    width: 70%;
+    border: 1px solid #000;
+    margin-top: 10px;
+    margin-left: 15px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.upload-area {
+    border: 2px dashed #201e1e;
+    text-align: center;
+    border-radius: 10px;
+    width: 80%;
+    padding: 20px; 
+    margin-top: 10px;
+    margin-left: 15px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.upload-area:hover, .showmenu:hover {
+    cursor: pointer;
+    background-color: gray;
+    color: white;
+}
+
+.add_file.show, .fileInput.show, .upload-area.show {
+    opacity: 1;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: 0.3s;
+}
+
+#map {
+    flex: 1;
+    height: 95%;
+  
+}
+
+.link_ a {
+    text-decoration: none;
+    color: inherit;
+    list-style: none;
+}
+
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #000000;
+    color: white;
+    position: fixed;
+    width: 100%;
+    height: 5%;
+    bottom: 0;
+}
+
+
