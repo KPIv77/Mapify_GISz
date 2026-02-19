@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"> 
+    <title>Mapify GISz</title>
+</head>
+<body>
+    <div class="menu">
+
+        <button class="showmenu" id="showmenu">☰</button>
+
+        <div class="add_file">
+            <input 
+                type="file" 
+                id="fileInput" 
+                class="fileInput"
+                onchange="showFileName('gsm')"
+            />
+        </div>
+
+        <div id="upload-area" class="upload-area">
+            <p>Drag & drop or click to upload Excel (.xlsx/.xls/.csv)</p>
+        </div>
+
+        <div id="error" style="color:red; margin-top:10px;"></div>
+
+    </div>
+
+    <div id="map"></div>
+
+    <footer class="link_">
+        &copy; 2026 Kitisak K. — Built with 
+        <a href="https://leafletjs.com/" target="_blank" rel="noopener noreferrer">&copy; Leaflet</a> 
+        and 
+        <a href="https://openstreetmap.org/" target="_blank" rel="noopener noreferrer">&copy; OpenStreetMap</a> 
+        contributors.
+    </footer>
+  
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="app.js"></script>
+  <script src="menu.js"></script>
+
+</body>
+</html>
