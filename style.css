@@ -73,6 +73,12 @@ body {
     transition: 0.3s;
 }
 
+#error {
+    color: red;
+    margin-top: 10px;
+    margin-left: 15px;
+}
+
 #map {
     flex: 1;
     height: 95%;
@@ -83,6 +89,12 @@ body {
     text-decoration: none;
     color: inherit;
     list-style: none;
+}
+
+.text-marker {
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    font-size: 14px;
 }
 
 footer {
