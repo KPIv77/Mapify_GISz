@@ -19,7 +19,7 @@ Mapify_GISz/
 ├── menu.js
 ├── app.js
 └── example_data
-    └── example_site_location
+    └── example_site_location.xlsx
 </pre>
 
 
