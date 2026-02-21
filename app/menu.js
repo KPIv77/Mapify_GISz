@@ -5,6 +5,7 @@ function menu_show() {
   const menu = document.querySelector(".menu");
   const fileinput = document.querySelectorAll(".fileInput, .upload-area, .search_location");
   
+  
   // Check elements existence before adding event listener
   if (!showmenu || !menu || !fileinput) return; 
 
