@@ -16,8 +16,11 @@ Mapify_GISz/
 ├── README.md 
 ├── main.html
 ├── style.css
-├── menu.js
-├── app.js
+├── app/
+│   ├── map.j
+│   ├── app.js
+│   ├── menu.js
+│   └── search_latlong.js
 └── example_data
     └── example_site_location.xlsx
 </pre>
