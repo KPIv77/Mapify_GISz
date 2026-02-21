@@ -19,7 +19,6 @@ fileInput.addEventListener("change", (e) => {
 
 // Prepare to read the uploaded file. 
 function handleFile(file) {
-  errorDiv.textContent = "";
   const reader = new FileReader();
 
   // console.log("Reading file:", file.name);
