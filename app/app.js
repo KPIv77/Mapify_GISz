@@ -44,7 +44,7 @@ function handleFile(file) {
       // console.log(rows);
 
     } catch (err) {
-      errorDiv.textContent = "Error reading file: " + err.message;
+      alert("Error reading file: " + err.message);
     }
   };
   reader.readAsArrayBuffer(file);
@@ -53,7 +53,7 @@ function handleFile(file) {
 //
 function processRows(rows) {
   if (!rows.length) {
-    errorDiv.textContent = "No data found in file";
+    alert("No data found in file");
     return;
   }
 
@@ -71,7 +71,7 @@ function processRows(rows) {
     headers.find((h) => lngKeys.some((c) => h.includes(c)));
 
   if (!latCol || !lngCol) {
-    errorDiv.textContent = "No lat/long columns detected!";
+    alert("No lat/long columns detected!");
     return;
   }
 
@@ -90,7 +90,7 @@ function processRows(rows) {
   });
 
   if (!points.length) {
-    errorDiv.textContent = "No valid coordinates found!";
+    alert("No valid coordinates found!");
     return;
   }
 
