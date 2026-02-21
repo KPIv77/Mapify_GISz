@@ -1,9 +1,10 @@
-// search location site
+// Search location site.
 function add_location () {
     const search = document.querySelector(".search_location");
 
     search.addEventListener("keydown", function(event) {
 
+        // Remove before add new location
         if (event.key === "Enter") {
 
             if (event.key === "Enter") {
@@ -13,28 +14,27 @@ function add_location () {
                     if (layer instanceof L.Marker) map.removeLayer(layer);
                  });
             };
-            
-            event.preventDefault(); 
-
-            map.eachLayer((layer) => {
-                if (layer instanceof L.Marker) map.removeLayer(layer);
-            });
-
+           
+            // Input lat long from user keep to value and .split (12 23 === lat long).
             const value = search.value.trim();
             const [latitude, longitude]  = value.split(/\s+/).map(Number);
 
+            // Check value in form box.
             if (isNaN(latitude) || isNaN(longitude)) {
                 alert("Please enter valid coordinates, e.g. '13.736717 100.523186");
                 return;
             }
 
-            console.log("Lattitude: ",latitude);
-            console.log("Longitude: ", longitude);
+            // console.log("Lattitude: ",latitude);
+            // console.log("Longitude: ", longitude);
             
-
+            // Keep lat long to point.
             const point = {lat: latitude, lng: longitude, name: "Target"};
 
+            // Add pip.
             L.marker([point.lat, point.lng]).addTo(map);
+
+            // Add label.
             L.marker([point.lat, point.lng], {
                 icon:L.divIcon({
                     className: "text-marker",
@@ -42,6 +42,7 @@ function add_location () {
                 }),
             }).addTo(map);
 
+            // Default view after search location.
             map.setView([point.lat, point.lng], 10);
 
         }
