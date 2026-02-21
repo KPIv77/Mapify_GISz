@@ -1,13 +1,3 @@
-// Create the map and set default view (Leaflet).
-// Set Bangkok as default center(13.736717, 100.523186) with zoom level 6.
-const map = L.map("map").setView([13.736717, 100.523186], 6);
-
-// Add OpenStreetMap tiles with attribution.
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-  attribution:
-    '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-}).addTo(map);
-
 // Handle file uploads (drag-and-drop and file input).
 const uploadArea = document.getElementById("upload-area");
 const fileInput = document.getElementById("fileInput");
@@ -109,6 +99,7 @@ function processRows(rows) {
     if (layer instanceof L.Marker) map.removeLayer(layer);
   });
 
+
   const first = points[0];
   map.setView([first.lat, first.lng], 10);
 
@@ -121,7 +112,7 @@ function processRows(rows) {
     const siteName = p.raw.SiteName || `Point ${i + 1}`;
     console.log(`Added marker #${i + 1} at (${p.lat}, ${p.lng})`);
     
-    // Show site name.
+    // Show lable site name.
     L.marker([p.lat, p.lng], {
       icon: L.divIcon({
       className: "text-marker",
@@ -131,4 +122,6 @@ function processRows(rows) {
     }).addTo(map);
 
   });
+
 }
+

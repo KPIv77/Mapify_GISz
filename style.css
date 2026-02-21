@@ -16,6 +16,7 @@ body {
 }
 
 .menu {
+    position: relative;
     height: 95%;
     width: 3%;
     background-color: rgb(255, 255, 255);
@@ -60,17 +61,10 @@ body {
     pointer-events: none;
 }
 
-.upload-area:hover, .showmenu:hover {
+.upload-area:hover, .showmenu:hover .search_location:hover, .search_location:hover{
     cursor: pointer;
     background-color: gray;
     color: white;
-}
-
-.add_file.show, .fileInput.show, .upload-area.show {
-    opacity: 1;
-    cursor: pointer;
-    pointer-events: auto;
-    transition: 0.3s;
 }
 
 #error {
@@ -78,6 +72,31 @@ body {
     margin-top: 10px;
     margin-left: 15px;
 }
+
+.search_location {
+    position: absolute;
+    margin-left: 15px;
+    width: 80%;
+    border-radius: 10px;
+    padding: 3px 10px;
+    bottom: 1%;
+    font-size: 10px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.search_location::placeholder {
+    color: gray;
+    font-size: 12px;
+}
+
+.add_file.show, .fileInput.show, .upload-area.show, .search_location.show {
+    opacity: 1;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: 0.3s;
+}
+
 
 #map {
     flex: 1;
