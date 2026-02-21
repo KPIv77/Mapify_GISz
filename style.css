@@ -17,7 +17,7 @@ body {
 
 .menu {
     position: relative;
-    height: 95%;
+    height: 100%;
     width: 3%;
     background-color: rgb(255, 255, 255);
     transition: 0.3s;
@@ -100,7 +100,7 @@ body {
 
 #map {
     flex: 1;
-    height: 95%;
+    height: 100%;
   
 }
 
