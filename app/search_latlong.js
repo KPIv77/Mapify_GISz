@@ -1,3 +1,5 @@
+const searchSite = L.layerGroup().addTo(map);
+
 // Search location site.
 function add_location () {
     const search = document.querySelector(".search_location");
@@ -11,7 +13,7 @@ function add_location () {
                 event.preventDefault(); 
 
                 map.eachLayer((layer) => {
-                    if (layer instanceof L.Marker) map.removeLayer(layer);
+                    if (layer instanceof L.Marker) searchSite.removeLayer(layer);
                  });
             };
            
@@ -32,7 +34,7 @@ function add_location () {
             const point = {lat: latitude, lng: longitude, name: "Target"};
 
             // Add pip.
-            L.marker([point.lat, point.lng]).addTo(map);
+            L.marker([point.lat, point.lng]).addTo(searchSite);
 
             // Add label.
             L.marker([point.lat, point.lng], {
@@ -40,7 +42,7 @@ function add_location () {
                     className: "text-marker",
                     html: `<b>${point.name}</b>`
                 }),
-            }).addTo(map);
+            }).addTo(searchSite);
 
             // Default view after search location.
             map.setView([point.lat, point.lng], 10);

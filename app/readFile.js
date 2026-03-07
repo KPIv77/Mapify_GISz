@@ -1,3 +1,5 @@
+const file_Site = L.layerGroup().addTo(map);
+
 // Handle file uploads (drag-and-drop and file input).
 const uploadArea = document.getElementById("upload-area");
 const fileInput = document.getElementById("fileInput");
@@ -95,7 +97,7 @@ function processRows(rows) {
 
   // Clear existing markers
   map.eachLayer((layer) => {
-    if (layer instanceof L.Marker) map.removeLayer(layer);
+    if (layer instanceof L.Marker) file_Site.removeLayer(layer);
   });
 
 
@@ -107,7 +109,7 @@ function processRows(rows) {
   points.forEach((p, i) => {
     
     // Plot marker 
-    const marker = L.marker([p.lat, p.lng]).addTo(map);
+    const marker = L.marker([p.lat, p.lng]).addTo(file_Site);
     const siteName = p.raw.SiteName || `Point ${i + 1}`;
     console.log(`Added marker #${i + 1} at (${p.lat}, ${p.lng})`);
     
@@ -118,7 +120,7 @@ function processRows(rows) {
       html: `<b>${siteName}</b>`
 
       }),
-    }).addTo(map);
+    }).addTo(file_Site);
 
   });
 
