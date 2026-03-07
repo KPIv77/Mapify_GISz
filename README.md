@@ -20,6 +20,8 @@ Mapify_GISz/
 │   ├── map.j
 │   ├── app.js
 │   ├── menu.js
+│   ├── distance_cal.js
+│   ├── reset.js
 │   └── search_latlong.js
 └── example_data
     └── example_site_location.xlsx
