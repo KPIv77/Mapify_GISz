@@ -6,6 +6,17 @@
   box-sizing: border-box;
 }
 
+:root {
+  --bg-header: #1e1e2e;
+  --bg-sidebar: #f0f0f0;
+  --bg-map: #e8f4ea;
+  --border: #ccc;
+  --font-th: 'Sarabun', sans-serif;
+  --radius: 4px;
+  --text-color: #ffff;
+  --text-black: #000;
+}
+
 /* Layout หลัก: เรียงแนวตั้ง เต็มหน้าจอ */
 .layout {
   display: flex;
@@ -17,13 +28,39 @@
 /* Header: แถบบนสุด ความสูงคงที่ */
 .header {
   height: 56px;
-  background: #1e1e2e;
-  color: #fff;
+  background: var(--bg-header);
+  color: var(--text-color);
   display: flex;
   align-items: center;
   padding: 0 20px;
   font-weight: 500;
   flex-shrink: 0; /* ห้ามหดตัว */
+  border-bottom: 1px solid var(--border);
+  gap: 12px;
+  z-index: 1000;
+  flex-shrink: 0;
+}
+
+.header-tools {
+  display: flex; 
+  gap: 4px; 
+  margin-left: auto; 
+  align-items: center;
+}
+
+.header-tools button {
+  background: transparent; 
+  border: 1px solid var(--border);
+  color: var(--text-muted); 
+  font-family: var(--font-th);
+  font-size: 12px; 
+  padding: 5px 10px; 
+  border-radius: var(--radius);
+  cursor: pointer; 
+  transition: all 0.15s; 
+  white-space: nowrap;
+  display: flex; 
+  align-items: center; gap: 5px;
 }
 
 /* Body: แบ่ง sidebar + ฝั่งขวา แนวนอน */
@@ -37,11 +74,40 @@
 .sidebar {
   width: 240px;
   flex-shrink: 0;
-  background: #f0f0f0;
+  background: var(--bg-sidebar);
   padding: 16px;
-  border-right: 1px solid #ddd;
+  border-right: 1px solid var(--border);
   overflow-y: auto; /* scroll ได้ถ้าเมนูเยอะ */
+  
 }
+
+.menu-group-top {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.menu-group-top input {
+  border-radius: 20px;
+}
+
+.menu-group-middle {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.menu-group-bottom {
+  margin-top: auto;
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  justify-content: center;
+}
+
+
 
 /* ฝั่งขวา: map + toolbar เรียงแนวตั้ง */
 .right {
@@ -57,11 +123,34 @@
   overflow: hidden; /* map library มักต้องการ */
 }
 
+
+.drop-zone {
+  
+  border: 2px dashed #64748b;
+  border-radius: 12px;
+
+  padding: 20px;
+  margin-bottom: 12px;
+
+  min-height: 80px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--bg-sidebar);
+  color: var(--text-black);
+
+  transition: all 0.2s ease;
+}
+
+
+
 /* Toolbar: แถบล่าง อยู่ใต้ map เท่านั้น */
 .toolbar {
   height: 48px;
-  background: #f5f5f5;
-  border-top: 1px solid #ddd;
+  background: var(--bg-sidebar);
+  border-top: 1px solid var(--border);
   display: flex;
   align-items: center;
   padding: 0 16px;
