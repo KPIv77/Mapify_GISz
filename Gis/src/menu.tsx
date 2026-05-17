@@ -1,5 +1,4 @@
 export type MenuItem = {
-  id: number
   label: string
   group: 'top' | 'middle' | 'bottom'
   onClick: () => void
@@ -22,7 +21,6 @@ function Sidebar({ menuItems }: SidebarProps) {
       <div className="menu-group-top">
         {topItems.map((item) => (
           <input
-            key={item.id}
             type="text"
             placeholder="Search..."
           />
@@ -32,7 +30,6 @@ function Sidebar({ menuItems }: SidebarProps) {
       <div className="menu-group-middle">
         {middleItems.map((item) => (
           <div
-            key={item.id}
             className="drop-zone"
             onDragOver={(e) => e.preventDefault()}
             onDrop={() => console.log('dropped')}
@@ -45,7 +42,6 @@ function Sidebar({ menuItems }: SidebarProps) {
       <div className="menu-group-bottom">
         {bottomItems.map((item) => (
           <button
-            key={item.id}
             onClick={item.onClick}
             className="btn"
           >

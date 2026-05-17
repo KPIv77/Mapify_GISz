@@ -24,7 +24,7 @@
 }
 
 /* Header: แถบบนสุด ความสูงคงที่ */
-.header {
+.header-menu{
   height: 56px;
   background: var(--bg-header);
   color: var(--text-color);
@@ -59,6 +59,11 @@
   white-space: nowrap;
   display: flex; 
   align-items: center; gap: 5px;
+}
+.btn:hover {
+  background: var(--bg-sidebar);
+  border-color: var(--text-muted);
+  color: var(--text-black);
 }
 
 /* Body: แบ่ง sidebar + ฝั่งขวา แนวนอน */
