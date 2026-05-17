@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import Sidebar from './menu'
 import type { MenuItem } from './menu'
+import MapView from './map-view.tsx'
 import './App.css'
 import './App.css'
 
@@ -35,7 +36,9 @@ function App() {
 
             {/* ฝั่งขวา: map + toolbar */}
             <div className="right">
-                <div className="map-container">Map</div>
+                <div className="map-container">
+                  <MapView />
+                </div>
                 <div className="toolbar">Toolbar</div>
             </div>
 
