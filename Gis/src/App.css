@@ -1,5 +1,3 @@
-
-/* รีเซ็ต margin/padding ทุก element */
 * {
   margin: 0;
   padding: 0;
@@ -48,7 +46,7 @@
   align-items: center;
 }
 
-.header-tools button {
+.btn {
   background: transparent; 
   border: 1px solid var(--border);
   color: var(--text-muted); 
@@ -72,13 +70,13 @@
 
 /* Sidebar: เมนูซ้าย ความกว้างคงที่ ลงมาเต็มความสูง */
 .sidebar {
+  display: flex;
+  flex-direction: column;
   width: 240px;
   flex-shrink: 0;
   background: var(--bg-sidebar);
   padding: 16px;
   border-right: 1px solid var(--border);
-  overflow-y: auto; /* scroll ได้ถ้าเมนูเยอะ */
-  
 }
 
 .menu-group-top {
@@ -93,6 +91,7 @@
 
 .menu-group-middle {
   display: flex;
+  margin-top: auto;
   flex-direction: column;
   gap: 12px;
   flex-wrap: wrap;
@@ -100,14 +99,11 @@
 }
 
 .menu-group-bottom {
-  margin-top: auto;
   display: flex;
   flex-direction: row;
   gap: 12px;
   justify-content: center;
 }
-
-
 
 /* ฝั่งขวา: map + toolbar เรียงแนวตั้ง */
 .right {
@@ -123,28 +119,19 @@
   overflow: hidden; /* map library มักต้องการ */
 }
 
-
 .drop-zone {
-  
   border: 2px dashed #64748b;
   border-radius: 12px;
-
   padding: 20px;
   margin-bottom: 12px;
-
   min-height: 80px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   background: var(--bg-sidebar);
   color: var(--text-black);
-
   transition: all 0.2s ease;
 }
-
-
 
 /* Toolbar: แถบล่าง อยู่ใต้ map เท่านั้น */
 .toolbar {

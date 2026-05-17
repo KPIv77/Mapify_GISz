@@ -4,8 +4,6 @@ import type { MenuItem } from './menu'
 import './App.css'
 import './App.css'
 
-
-
 function App() {
       // Setup menu items for bottom Sidebar
     const menuItems: MenuItem[] = [
@@ -23,10 +21,10 @@ function App() {
         >
             Map GIS
             <div className="header-tools">
-                <button>Measure</button>
-                <button>Pin location</button>
-                <button>Polygon</button>
-                <button>ClearAll</button>
+                <button className="btn">Measure</button>
+                <button className="btn">Pin location</button>
+                <button className="btn">Polygon</button>
+                <button className="btn">ClearAll</button>
             </div>
         </header>
 

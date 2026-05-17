@@ -47,6 +47,7 @@ function Sidebar({ menuItems }: SidebarProps) {
           <button
             key={item.id}
             onClick={item.onClick}
+            className="btn"
           >
             {item.label}
           </button>
