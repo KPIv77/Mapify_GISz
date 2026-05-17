@@ -17,7 +17,7 @@ function App() {
 
     // Store current map information
     const [mapInfo, setMapInfo] = useState<MapInfo>({ lat: '-', lng: '-', zoom: 13 })
-    const { setMap, handleMeasure, handlePin, handlePolygon, handleClearAll } = useMapTools()
+    const { setMap, handleMeasure, handlePin, handlePolygon, handleClearAll, handleSearch } = useMapTools()
 
     const menuHeader: MenuHeader[] = [
         { label: "Measure", onClick: handleMeasure },
@@ -28,12 +28,13 @@ function App() {
 
     // Setup menu items for bottom Sidebar
     const menuItems: MenuItem[] = [
-        { id: 1, label: "Search",  group: "top",    onClick: () => console.log('Search') },
+        { id: 1, label: "Search",  group: "top",    onClick: () => console.log('Search'), onSearch: handleSearch },
         { id: 2, label: "File", group: "middle", onClick: () => console.log('Filter') },
         { id: 3, label: "OSM Standard",   group: "bottom", onClick: () => console.log('map1') },
         { id: 4, label: "Satelite",   group: "bottom", onClick: () => console.log('map2') },
         { id: 5, label: "Dark",   group: "bottom", onClick: () => console.log('map3') },
     ]  
+    
 
   return (
     <>

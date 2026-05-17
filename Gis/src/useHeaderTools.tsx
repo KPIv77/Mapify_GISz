@@ -1,4 +1,4 @@
-// useHeaderTools.ts
+// UseHeaderTools.ts
 import { useRef } from 'react'
 import L from 'leaflet'
 
@@ -18,7 +18,7 @@ export function useMapTools() {
     mapRef.current = map
   }
 
-  // calculate distance
+  // Calculate distance
   const calcDistance = (points: L.LatLng[]): string => {
     let total = 0
     for (let i = 1; i < points.length; i++) {
@@ -77,7 +77,7 @@ export function useMapTools() {
     }
   }
 
-  // double-click to finish measuring
+  // Double-click to finish measuring
   const onMeasureDone = (e: L.LeafletMouseEvent) => {
     const map = mapRef.current
     if (!map) return
@@ -138,5 +138,39 @@ export function useMapTools() {
     clearMeasure(map) // ← Clear measure
   }
 
-  return { setMap, handleMeasure, handlePin, handlePolygon, handleClearAll }
+  // Search location using Nominatim API
+  const handleSearch = async (query?: string) => {
+    const map = mapRef.current
+    if (!map || !query?.trim()) return
+
+    try {
+      const res = await fetch(
+        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1`,
+        { headers: { 'Accept-Language': 'th' } }
+      )
+      const data = await res.json()
+
+      if (data.length === 0) {
+        alert(`ไม่พบ "${query}"`)
+        return
+      }
+
+      const { lat, lon, display_name } = data[0]
+      const latlng = L.latLng(parseFloat(lat), parseFloat(lon))
+
+      // Move map to the found location
+      map.flyTo(latlng, 15)
+
+      // Add marker with popup
+      L.marker(latlng)
+        .addTo(map)
+        .bindPopup(`📍 ${display_name}`)
+        .openPopup()
+
+    } catch (err) {
+      console.error('Search error:', err)
+    }
+  }
+
+  return { setMap, handleMeasure, handlePin, handlePolygon, handleClearAll, handleSearch }
 }

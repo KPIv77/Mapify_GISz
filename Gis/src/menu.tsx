@@ -3,6 +3,7 @@ export type MenuItem = {
   label: string
   group: 'top' | 'middle' | 'bottom'
   onClick: () => void
+  onSearch?: (query: string) => void
 }
 
 type SidebarProps = {
@@ -25,6 +26,11 @@ function Sidebar({ menuItems }: SidebarProps) {
             key={item.id}
             type="text"
             placeholder="Search..."
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                item.onSearch?.((e.target as HTMLInputElement).value)
+              }
+            }}
           />
         ))}
       </div>
