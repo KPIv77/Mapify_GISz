@@ -1,3 +1,12 @@
 test/
 *.txt
-Gis/
+Gis/node_modules/
+Gis/dist/
+Gis/.env
+Gis/.env.local
+Gis/public/
+Gis/src/assets/
+Gis/eslint.config.js
+
+
+Gis/README.md
