@@ -9,9 +9,9 @@ function App() {
     const menuItems: MenuItem[] = [
         { id: 1, label: 'Search',  group: 'top',    onClick: () => console.log('Search') },
         { id: 2, label: 'File', group: 'middle', onClick: () => console.log('Filter') },
-        { id: 3, label: 'map1',   group: 'bottom', onClick: () => console.log('map1') },
-        { id: 4, label: 'map2',   group: 'bottom', onClick: () => console.log('map2') },
-        { id: 5, label: 'map3',   group: 'bottom', onClick: () => console.log('map3') },
+        { id: 3, label: 'OSM Standard',   group: 'bottom', onClick: () => console.log('map1') },
+        { id: 4, label: 'Satelite',   group: 'bottom', onClick: () => console.log('map2') },
+        { id: 5, label: 'Dark',   group: 'bottom', onClick: () => console.log('map3') },
     ]  
 
   return (
