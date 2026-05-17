@@ -1,5 +1,4 @@
 # Mapify_GISz
-https://kpiv77.github.io/Mapify_GISz/main.html
 
 
 ## Concept
