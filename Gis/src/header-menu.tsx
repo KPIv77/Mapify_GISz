@@ -11,16 +11,15 @@ function HeaderMenu({ menuHeader }: HeaderProps) {
 
     return (
         <>
-            <div className="header-menu">
-                {menuHeader.map((item) => (
-                    <button
-                        onClick={item.onClick}
-                        className="btn"
-                    >
-                        {item.label}
-                    </button>
-                ))}
-            </div>
+            {menuHeader.map((item) => (
+                <button
+                    key={item.label}
+                    onClick={item.onClick}
+                    className="btn"
+                >
+                    {item.label}
+                </button>
+            ))}
         </>
     )
 
