@@ -6,6 +6,7 @@ export function useMapTools() {
   const mapRef        = useRef<L.Map | null>(null)
   const polygonPoints = useRef<L.LatLng[]>([])
   const polygonLayer  = useRef<L.Polygon | null>(null)
+  const polygonActive = useRef(false)
 
   // Measure tool state
   const measureActive  = useRef(false)
@@ -29,20 +30,37 @@ export function useMapTools() {
       : `${total.toFixed(0)} m`
   }
 
-  // Clear measure state
+  // Clear measure state + layer
   const clearMeasure = (map: L.Map) => {
     measureLine.current?.remove()
     measureMarkers.current.forEach((m) => m.remove())
     measureTooltip.current?.remove()
-    measureActive.current    = false
-    measurePoints.current    = []
-    measureLine.current      = null
-    measureMarkers.current   = []
-    measureTooltip.current   = null
+    measureActive.current  = false
+    measurePoints.current  = []
+    measureLine.current    = null
+    measureMarkers.current = []
+    measureTooltip.current = null
     map.off('click', onMeasureClick)
     map.off('dblclick', onMeasureDone)
     map.getContainer().style.cursor = ''
     map.doubleClickZoom.enable()
+  }
+
+  // Clear polygon state only — ไม่ลบ layer (ใช้ตอน dblclick)
+  const clearPolygonState = (map: L.Map) => {
+    polygonActive.current = false
+    polygonPoints.current = []
+    map.off('click', onPolygonClick)
+    map.off('dblclick', onPolygonDone)
+    map.getContainer().style.cursor = ''
+    map.doubleClickZoom.enable()
+  }
+
+  // Clear polygon state + layer (ใช้ตอน ClearAll)
+  const clearPolygon = (map: L.Map) => {
+    polygonLayer.current?.remove()
+    polygonLayer.current = null
+    clearPolygonState(map)
   }
 
   // Click to add measure point
@@ -72,9 +90,48 @@ export function useMapTools() {
       measureTooltip.current?.remove()
       measureTooltip.current = L.tooltip({ permanent: true, className: 'measure-tooltip' })
         .setLatLng(e.latlng)
-        .setContent(`📏 ${calcDistance(measurePoints.current)}`)
+        .setContent(` ${calcDistance(measurePoints.current)}`)
         .addTo(map)
     }
+  }
+
+  // Click to add polygon point
+  const onPolygonClick = (e: L.LeafletMouseEvent) => {
+    const map = mapRef.current
+    if (!map) return
+
+    polygonPoints.current.push(e.latlng)
+
+    // วาง circle marker ทุกจุด
+    L.circleMarker(e.latlng, {
+      radius: 5, color: '#16a34a', fillColor: '#fff', fillOpacity: 1, weight: 2,
+    }).addTo(map)
+
+    // วาด polygon ทุกครั้งที่คลิก
+    polygonLayer.current?.remove()
+    polygonLayer.current = L.polygon(polygonPoints.current, {
+      color: '#16a34a', fillOpacity: 0.2
+    }).addTo(map)
+  }
+
+  // Double-click to finish polygon — เก็บ layer ไว้ ล้างแค่ state
+  const onPolygonDone = (e: L.LeafletMouseEvent) => {
+    const map = mapRef.current
+    if (!map) return
+    L.DomEvent.stop(e) // ป้องกัน zoom
+
+    // แสดง popup จำนวนจุดตรงกลาง polygon
+    if (polygonPoints.current.length >= 3 && polygonLayer.current) {
+      const center = polygonLayer.current.getBounds().getCenter()
+      L.popup()
+        .setLatLng(center)
+        .setContent(`🟩 ${polygonPoints.current.length} จุด`)
+        .addTo(map)
+        .openOn(map)
+    }
+
+    // ✅ ล้างแค่ state — เส้นและพื้นที่ยังคงอยู่บนแผนที่
+    clearPolygonState(map)
   }
 
   // Double-click to finish measuring
@@ -85,12 +142,11 @@ export function useMapTools() {
     clearMeasure(map)
   }
 
-  // Measure tool: click to add points, double-click to finish
+  // Measure tool: toggle เปิด/ปิด
   const handleMeasure = () => {
     const map = mapRef.current
     if (!map) return
 
-    // If already active, clear measure
     if (measureActive.current) {
       clearMeasure(map)
       return
@@ -114,19 +170,26 @@ export function useMapTools() {
     })
   }
 
+  // Polygon tool: toggle เปิด/ปิด
   const handlePolygon = () => {
     const map = mapRef.current
     if (!map) return
-    map.on('click', (e) => {
-      polygonPoints.current.push(e.latlng)
-      polygonLayer.current?.remove()
-      polygonLayer.current = L.polygon(polygonPoints.current, {
-        color: 'blue', fillOpacity: 0.2
-      }).addTo(map)
-    })
+
+    if (polygonActive.current) {
+      // กด polygon อีกรอบ → ยกเลิกโหมด แต่ไม่ลบ layer
+      clearPolygonState(map)
+      return
+    }
+
+    polygonActive.current = true
+    polygonLayer.current  = null // reset ref เพื่อเริ่ม polygon ใหม่
+    map.getContainer().style.cursor = 'crosshair'
+    map.doubleClickZoom.disable()
+    map.on('click', onPolygonClick)
+    map.on('dblclick', onPolygonDone)
   }
 
-  // ClearAll
+  // ClearAll: ลบทุก layer และ reset ทุก state
   const handleClearAll = () => {
     const map = mapRef.current
     if (!map) return
@@ -135,7 +198,8 @@ export function useMapTools() {
     })
     polygonPoints.current = []
     polygonLayer.current  = null
-    clearMeasure(map) // ← Clear measure
+    clearMeasure(map)
+    clearPolygon(map) // ← ใช้ clearPolygon (ลบ layer ด้วย)
   }
 
   // Search location using Nominatim API
