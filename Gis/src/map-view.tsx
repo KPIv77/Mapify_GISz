@@ -10,9 +10,10 @@ interface MapInfo {
 
 interface MapViewProps {
   onInfoChange?: (info: MapInfo) => void
+  onMapReady?: (map: L.Map) => void
 }
 
-export default function MapView({ onInfoChange }: MapViewProps) {
+export default function MapView({ onInfoChange, onMapReady }: MapViewProps) {
 
     // Reference to the HTML div that will contain the map
     const mapRef = useRef<HTMLDivElement>(null)
@@ -57,6 +58,8 @@ export default function MapView({ onInfoChange }: MapViewProps) {
 
         // Save map instance
         mapInstance.current = map
+
+        onMapReady?.(map)
         }
 
         // Cleanup map instance when component unmounts

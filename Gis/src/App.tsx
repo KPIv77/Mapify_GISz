@@ -2,8 +2,10 @@ import { useState } from 'react'
 import Sidebar from './menu'
 import type { MenuItem } from './menu'
 import MapView from './map-view'
+import HeaderMenu from './header-menu'         // ← ลบ .tsx
+import type { MenuHeader } from './header-menu' // ← แยก import type ออกให้ชัดเจน
+import { useMapTools } from './useHeaderTools'  // ← ลบ .tsx
 import './App.css'
-import HeaderMenu, { type MenuHeader } from './header-menu.tsx'
 
 interface MapInfo {
   lat: string
@@ -15,21 +17,22 @@ function App() {
 
     // Store current map information
     const [mapInfo, setMapInfo] = useState<MapInfo>({ lat: '-', lng: '-', zoom: 13 })
+    const { setMap, handleMeasure, handlePin, handlePolygon, handleClearAll } = useMapTools()
 
     const menuHeader: MenuHeader[] = [
-        { label: 'Measure', onClick: () => console.log('Measure') },
-        { label: 'Pin location', onClick: () => console.log('Zoom Out') },
-        { label: 'Polygon', onClick: () => console.log('Reset View') },
-        { label: 'ClearAll', onClick: () => console.log('Full Screen') },
+        { label: "Measure", onClick: handleMeasure },
+        { label: "Pin location", onClick: handlePin },
+        { label: "Polygon", onClick: handlePolygon },
+        { label: "ClearAll", onClick: handleClearAll },
     ]
 
     // Setup menu items for bottom Sidebar
     const menuItems: MenuItem[] = [
-        { id: 1, label: 'Search',  group: 'top',    onClick: () => console.log('Search') },
-        { id: 2, label: 'File', group: 'middle', onClick: () => console.log('Filter') },
-        { id: 3, label: 'OSM Standard',   group: 'bottom', onClick: () => console.log('map1') },
-        { id: 4, label: 'Satelite',   group: 'bottom', onClick: () => console.log('map2') },
-        { id: 5, label: 'Dark',   group: 'bottom', onClick: () => console.log('map3') },
+        { id: 1, label: "Search",  group: "top",    onClick: () => console.log('Search') },
+        { id: 2, label: "File", group: "middle", onClick: () => console.log('Filter') },
+        { id: 3, label: "OSM Standard",   group: "bottom", onClick: () => console.log('map1') },
+        { id: 4, label: "Satelite",   group: "bottom", onClick: () => console.log('map2') },
+        { id: 5, label: "Dark",   group: "bottom", onClick: () => console.log('map3') },
     ]  
 
   return (
@@ -40,9 +43,12 @@ function App() {
             <header className="header-menu"
             >
                 Map GIS
+
+                {/* Component frome header-menu.tsx */}
                 <div className="header-tools">
                     <HeaderMenu menuHeader={menuHeader} />
                 </div>
+                
             </header>
 
             {/* Main layout: sidebar + map section */}
@@ -56,7 +62,10 @@ function App() {
 
                     {/* Component map-view.tsx */}
                     <div className="map-container">
-                        <MapView onInfoChange={setMapInfo} />
+                        <MapView 
+                            onInfoChange={setMapInfo}
+                            onMapReady={setMap}
+                        />
                     </div>
                     
                     {/* Bottom toolbar displaying map information */}
