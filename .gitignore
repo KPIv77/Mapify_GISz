@@ -2,11 +2,15 @@ test/
 *.txt
 *.log
 *.env
-
 Gis/node_modules/
 Gis/dist/
 Gis/public/
 Gis/src/assets/
 Gis/eslint.config.js
+
+app/
+main.html
+style.css
+
 
 Gis/README.md
