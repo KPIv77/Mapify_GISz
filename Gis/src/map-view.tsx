@@ -30,9 +30,10 @@ export default function MapView({ onInfoChange, onMapReady }: MapViewProps) {
             const map = L.map(mapRef.current).setView([13.7563, 100.5018], 13)
 
             // Add OpenStreetMap tile layer
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-        }).addTo(map)
+
+            //L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            //    attribution: '© OpenStreetMap contributors'
+            // }).addTo(map)
 
         // Update latitude, longitude, and zoom while moving mouse on map
         map.on('mousemove', (e) => {

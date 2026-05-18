@@ -4,13 +4,16 @@ export type MenuItem = {
   group: 'top' | 'middle' | 'bottom'
   onClick: () => void
   onSearch?: (query: string) => void
+
+  basemapKey?: string
 }
 
 type SidebarProps = {
   menuItems: MenuItem[]
+  activeBasemap?: string
 }
 
-function Sidebar({ menuItems }: SidebarProps) {
+function Sidebar({ menuItems, activeBasemap }: SidebarProps) {
 
   // filter group
   const topItems    = menuItems.filter((item) => item.group === 'top')
@@ -53,7 +56,10 @@ function Sidebar({ menuItems }: SidebarProps) {
           <button
             key={item.id}
             onClick={item.onClick}
-            className="btn"
+            className={[
+              "btn",
+              item.basemapKey && item.basemapKey === activeBasemap ? 'active' : ''
+            ].join(' ').trim()}
           >
             {item.label}
           </button>

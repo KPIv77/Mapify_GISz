@@ -1,13 +1,48 @@
-import { useRef, useCallback } from 'react'
+import { useRef, useCallback, useState } from 'react'
 import L from 'leaflet'
+
+
+// Set basemap definitions
+const BASEMAP_TILES: Record<string, L.TileLayer> = {
+  osm: L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap', maxZoom: 19
+  }),
+  satellite: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    attribution: '© Esri', maxZoom: 19
+  }),
+  dark: L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    attribution: '© CARTO', maxZoom: 19
+  }),
+}
 
 export function useMapTools() {
 
-  // ─── Shared state ───────────────────────────────────────────────
+  // Reference to the Leaflet map instance
   const mapRef = useRef<L.Map | null>(null)
 
+  // Store active basemap key for button highlighting
+  const [activeBasemap, setActiveBasemap] = useState<string>('osm')
+
+  // Get map instance from MapView and load initial basemap
   const setMap = (map: L.Map) => {
     mapRef.current = map
+    // Load default basemap initially
+    BASEMAP_TILES['osm'].addTo(map)
+  }
+
+  // Switch basemap and update active state for button styling
+  const switchBasemap = (name: string) => {
+    const map = mapRef.current
+    if (!map || name === activeBasemap) return
+
+    // Remove current basemap layer and add the new one
+    map.removeLayer(BASEMAP_TILES[activeBasemap])
+    BASEMAP_TILES[name].addTo(map)
+    BASEMAP_TILES[name].bringToBack() // Ensure basemap stays behind other layers
+
+    // Update active basemap state for UI feedback
+
+    setActiveBasemap(name)
   }
 
   // ─── Measure state ──────────────────────────────────────────────
@@ -230,5 +265,13 @@ export function useMapTools() {
     }
   }
 
-  return { setMap, handleMeasure, handlePin, handlePolygon, handleClearAll, handleSearch }
+  return { 
+    setMap, 
+    handleMeasure, 
+    handlePin, 
+    handlePolygon, 
+    handleClearAll, 
+    handleSearch, 
+    switchBasemap, 
+    activeBasemap }
 }
