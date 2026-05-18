@@ -223,7 +223,7 @@ export function useMapTools() {
       map.flyTo(latlng, 15)
       L.marker(latlng)
         .addTo(map)
-        .bindPopup(`📍 ${display_name}`)
+        .bindPopup(`${display_name}`)
         .openPopup()
     } catch (err) {
       console.error('Search error:', err)
