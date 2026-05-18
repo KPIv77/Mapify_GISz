@@ -4,8 +4,8 @@ export type MenuItem = {
   group: 'top' | 'middle' | 'bottom'
   onClick: () => void
   onSearch?: (query: string) => void
-
   basemapKey?: string
+  onFileDrop?: (file: File) => void
 }
 
 type SidebarProps = {
@@ -43,8 +43,24 @@ function Sidebar({ menuItems, activeBasemap }: SidebarProps) {
           <div
             key={item.id}
             className="drop-zone"
+            // Drag & Drop file
             onDragOver={(e) => e.preventDefault()}
-            onDrop={() => console.log('dropped')}
+            onDrop={(e) => {
+              e.preventDefault()
+              const file = e.dataTransfer.files[0]
+              if (file) item.onFileDrop?.(file)  // Support file drop
+            }}
+            // Support file selection via click
+            onClick={() => {
+              const input = document.createElement('input')
+              input.type = 'file'
+              input.accept = '.kml,.kmz'
+              input.onchange = (e) => {
+                const file = (e.target as HTMLInputElement).files?.[0]
+                if (file) item.onFileDrop?.(file)
+              }
+              input.click()
+            }}
           >
             {item.label}
           </div>

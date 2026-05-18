@@ -265,13 +265,93 @@ export function useMapTools() {
     }
   }
 
+  // ─── KML / KMZ Loader ───────────────────────────────────────────
+
+const kmlLayersRef = useRef<L.GeoJSON[]>([])  // Keep track of KML layers to manage them later if needed
+
+// parseAndRenderKML transforms a KML string into a Leaflet layer and adds it to the map
+const parseAndRenderKML = async (kmlString: string, fileName: string) => {
+  const map = mapRef.current
+  if (!map) return
+
+  // Parse KML string into an XML DOM
+  const parser = new DOMParser()
+  const xml = parser.parseFromString(kmlString, 'text/xml')
+
+  // Check for parsing errors
+  if (xml.querySelector('parsererror')) {
+    alert(`File ${fileName} has an invalid format`)
+    return
+  }
+
+  // toGeoJSON library: แปลง XML DOM → GeoJSON (ต้อง install @tmcw/togeojson)
+  // npm install @tmcw/togeojson
+  const { kml: toKml } = await import('@tmcw/togeojson')
+  const geojson = toKml(xml)
+
+  if (!geojson.features?.length) {
+    alert(`No features found in ${fileName}`)
+    return
+  }
+
+  // Create GeoJSON layer on Leaflet
+  const layer = L.geoJSON(geojson, {
+    style: { color: '#2563eb', weight: 2, fillOpacity: 0.15 },
+    pointToLayer: (_, latlng) =>
+      L.circleMarker(latlng, {
+        radius: 6, color: '#2563eb', fillColor: '#fff',
+        fillOpacity: 1, weight: 2,
+      }),
+    onEachFeature: (feature, lyr) => {
+      const name = feature.properties?.name ?? fileName
+      const desc = feature.properties?.description ?? ''
+      lyr.bindPopup(`<strong>${name}</strong>${desc ? `<br/>${desc}` : ''}`)
+    },
+  }).addTo(map)
+
+  // Zoom bounding box of layer
+  map.fitBounds(layer.getBounds())
+  kmlLayersRef.current.push(layer)
+}
+
+// handleFileLoad processes a dropped file, determines if it's KML or KMZ, and loads it onto the map
+const handleFileLoad = async (file: File) => {
+  const name = file.name.toLowerCase()
+
+  if (name.endsWith('.kml')) {
+    // Read KML file as text and parse it
+    const text = await file.text()
+    parseAndRenderKML(text, file.name)
+
+  } else if (name.endsWith('.kmz')) {
+    // KMZ: ZIP archive → extract KML → parse KML
+    // npm install jszip @types/jszip
+    const JSZip = (await import('jszip')).default
+    const zip = await JSZip.loadAsync(await file.arrayBuffer())
+
+    // file .kml first archive
+    const kmlEntry = Object.values(zip.files).find(
+      (f) => f.name.toLowerCase().endsWith('.kml') && !f.name.startsWith('__MACOSX')
+    )
+    if (!kmlEntry) { alert('No .kml file found inside KMZ'); return }
+
+    const kmlString = await kmlEntry.async('string')
+    parseAndRenderKML(kmlString, file.name)
+
+  } else {
+    alert('Support .kml and .kmz files only')
+  }
+}
+
   return { 
-    setMap, 
-    handleMeasure, 
-    handlePin, 
-    handlePolygon, 
-    handleClearAll, 
-    handleSearch, 
-    switchBasemap, 
-    activeBasemap }
+  setMap, 
+  handleMeasure, 
+  handlePin, 
+  handlePolygon, 
+  handleClearAll, 
+  handleSearch, 
+  switchBasemap, 
+  activeBasemap,
+  handleFileLoad
+  }
 }

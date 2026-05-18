@@ -2,9 +2,9 @@ import { useState } from 'react'
 import Sidebar from './menu'
 import type { MenuItem } from './menu'
 import MapView from './map-view'
-import HeaderMenu from './header-menu'         // ← ลบ .tsx
-import type { MenuHeader } from './header-menu' // ← แยก import type ออกให้ชัดเจน
-import { useMapTools } from './useHeaderTools'  // ← ลบ .tsx
+import HeaderMenu from './header-menu'         
+import type { MenuHeader } from './header-menu'  
+import { useMapTools } from './useHeaderTools'  
 import './App.css'
 
 interface MapInfo {
@@ -25,7 +25,8 @@ function App() {
         handleClearAll, 
         handleSearch, 
         activeBasemap, 
-        switchBasemap 
+        switchBasemap,
+        handleFileLoad 
     } = useMapTools()
 
     const menuHeader: MenuHeader[] = [
@@ -38,7 +39,7 @@ function App() {
     // Setup menu items for bottom Sidebar
     const menuItems: MenuItem[] = [
         { id: 1, label: "Search",  group: "top",    onClick: () => console.log('Search'), onSearch: handleSearch },
-        { id: 2, label: "File", group: "middle", onClick: () => console.log('Filter') },
+        { id: 2, label: "Drop kml, kmz files", group: "middle",     onClick: () => {}, onFileDrop: handleFileLoad, },
         { id: 3, label: "OSM Standard",   group: "bottom", onClick: () => switchBasemap('osm'), basemapKey: 'osm' },
         { id: 4, label: "Satelite",   group: "bottom", onClick: () => switchBasemap('satellite'), basemapKey: 'satellite' },
         { id: 5, label: "Dark",   group: "bottom", onClick: () => switchBasemap('dark'), basemapKey: 'dark' },
