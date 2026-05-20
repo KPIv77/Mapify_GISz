@@ -4,7 +4,7 @@ test/
 *.env
 Gis/node_modules/
 Gis/dist/
-Gis/public/
+
 Gis/src/assets/
 Gis/eslint.config.js
 
